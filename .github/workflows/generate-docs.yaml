@@ -15,6 +15,15 @@ jobs:
       - name: Checking out repository
         uses: actions/checkout@v2
 
+      - name: get changed files
+        id: getfilegit
+        run: |
+          echo "::set-output name=files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | grep -e '.*\.md$' -e '.*\.mmd$' -e '.*\.mermaid$' | xargs)"
+
+      - name: git files changed
+        run: |
+          echo ${{ steps.getfilegit.outputs.files }}
+
       - name: Get files
         id: getfiles
         uses: Rishabh510/Path-lister-action@master
@@ -25,7 +34,7 @@ jobs:
       - name: compile mermaid
         uses: neenjaw/compile-mermaid-markdown-action@v0.3.3
         with:
-          files: ${{ steps.getfiles.output.paths }}
+          files: ${{ steps.getfilegit.outputs.files }}
           output: '.docs'
         env:
           HIDE_CODEBLOCKS: 1
