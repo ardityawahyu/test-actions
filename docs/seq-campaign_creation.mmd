@@ -23,7 +23,7 @@ sequenceDiagram
     k->>c: OK
     deactivate k
 
-    c->>+k: create campaign
+    c->>+k: create campaign test
     k->>dbm: insert campaign
     dbm->>k: campaign ID
     k->>db: insert data (campaign ID)
