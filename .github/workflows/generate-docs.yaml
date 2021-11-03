@@ -22,7 +22,5 @@ jobs:
         
       - name: Generating docs
         run: |
-          npm install 
-          npm test
           npm install @mermaid-js/mermaid-cli
           make mermaid
