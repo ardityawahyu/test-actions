@@ -22,7 +22,7 @@ jobs:
           path: "docs"
           type: ".mmd"
 
-      - name: git files changed
+      - name: files to be compiled
         run: |
           echo ${{ steps.getfiles.outputs.paths }}
 
@@ -43,10 +43,20 @@ jobs:
           path: "docs"
           type: ".svg"
 
-      - name: Output diagram generated
+      - name: diagram generated
         run: |
-          echo "Found ${{ steps.getsvg.outputs.path_count }} file(s) with this extension:"
-          for i in ${{ steps.getsvg.outputs.paths }}; do
-          echo $i
-          done
+          echo ${{ steps.getsvg.outputs.paths }}
+      
+      - name: push to system-diagram
+        uses: dmnemec/copy_file_to_another_repo_action@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source_file: ${{ steps.getsvg.outputs.paths }}
+          destination_branch: 'master'
+          destination_repo: 'ardityawahyu/lemon'
+          destination_folder: 'test-dir'
+          user_email: 'wahyu.arditya@gmail.com'
+          user_name: 'ardityawahyu'
+          commit_message: 'testing push from another repo via actions'
           
