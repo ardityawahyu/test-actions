@@ -15,33 +15,17 @@ jobs:
       - name: Checking out repository
         uses: actions/checkout@v2
 
-      - name: Fetch action
-        id: pl
+      - name: Get files
+        id: getfiles
         uses: Rishabh510/Path-lister-action@master
         with:
           path: "docs"
           type: ".mmd"
 
-      - name: Output results
-        run: |
-          echo "Found ${{ steps.pl.outputs.path_count }} file(s) with this extension:"
-          echo "Found ${{ steps.pl.outputs.paths }}"
-          for i in ${{ steps.pl.outputs.paths }}; do
-          echo $i
-          done
-      
-      - name: Get Files
-        id: getfile
-        run: echo "::set-output name=files::$(find docs -name '*.mmd')"
-
-      - name: files changed
-        run: |
-          echo ${{ steps.getfile.outputs.files }}
-
       - name: compile mermaid
         uses: neenjaw/compile-mermaid-markdown-action@0.3.1
         with:
-          files: ${{ steps.getfile.outputs.files }}
+          files: ${{ steps.getfiles.output.paths }}
           output: '.docs'
         env:
           HIDE_CODEBLOCKS: 1
@@ -50,9 +34,15 @@ jobs:
 
       - name: Get Generated Files
         id: getsvg
-        run: echo "::set-output name=files::$(find docs -name '*.svg')"
+        uses: Rishabh510/Path-lister-action@master
+        with:
+          path: "docs"
+          type: ".svg"
 
-      - name: Generated files
+      - name: Output diagram generated
         run: |
-          echo ${{ steps.getsvg.outputs.files }}
+          echo "Found ${{ steps.getsvg.outputs.path_count }} file(s) with this extension:"
+          for i in ${{ steps.getsvg.outputs.paths }}; do
+          echo $i
+          done
           
