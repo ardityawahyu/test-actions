@@ -30,7 +30,7 @@ jobs:
         uses: neenjaw/compile-mermaid-markdown-action@v0.3.3
         with:
           files: ${{ steps.getfiles.outputs.paths }}
-          output: 'docs-generated'
+          output: 'output'
         env:
           HIDE_CODEBLOCKS: 1
           ABSOLUTE_IMAGE_LINKS: 1
@@ -40,7 +40,7 @@ jobs:
         id: getsvg
         uses: Rishabh510/Path-lister-action@master
         with:
-          path: "docs-generated"
+          path: "output"
           type: ".svg"
 
       - name: diagram generated
@@ -52,8 +52,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
-          github_server: 'github.com'
-          source_file: 'docs-generated'
+          source_file: 'output'
           destination_branch: 'master'
           destination_repo: 'ardityawahyu/lemon'
           destination_folder: 'test-dir'
