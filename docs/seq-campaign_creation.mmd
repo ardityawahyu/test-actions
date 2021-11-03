@@ -1,0 +1,50 @@
+```mermaid
+sequenceDiagram
+    sequenceDiagram
+    actor c as Campaigner
+    
+    participant k as kampanye
+    participant cs as campaignership
+    participant w as wong
+
+    participant db as DB-kampanye
+    participant dbm as DB-kitabisa
+    note left of c: Campaign Creation
+
+    c->>+k: create draft campaign
+    k->>db: insert campaign draft
+    db->>k: draft ID
+    k->>c: draft ID
+    deactivate k
+
+    c->>+k: update draft campaign
+    k->>db: update draft
+    db->>k: OK
+    k->>c: OK
+    deactivate k
+
+    c->>+k: create campaign
+    k->>dbm: insert campaign
+    dbm->>k: campaign ID
+    k->>db: insert data (campaign ID)
+    note left of db: campaigns, campaign_tracking, <br>campaign_agreement, campaign_bank_account
+    db->>k: OK
+    alt: medical
+    par: 
+    k->>cs: create medical patient
+    and
+    k->>cs: create medical review
+    and
+    k->>w: update user
+    end
+    cs->>k: OK medical patient
+    cs->>k: OK medical review
+    w->>k: OK update user
+    else: non-medical
+    k->>dbm: insert data (campaign ID)
+    note left of dbm: campaign_additional_data, <br>campaigner_additional_data
+    dbm->>k: OK
+    end
+    k->>c: campaign ID
+    deactivate k
+```
