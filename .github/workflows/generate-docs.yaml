@@ -21,12 +21,12 @@ jobs:
 
       - name: files changed
         run: |
-          echo ${{ steps.getfile.outputs.files }}
+          echo ${{ steps.getfile.outputs.files.all }}
 
       - name: compile mermaid
         uses: neenjaw/compile-mermaid-markdown-action@0.3.1
         with:
-          files: ${{ steps.getfile.outputs.files }}
+          files: ${{ steps.getfile.outputs.files.all }}
           output: '.docs'
         env:
           HIDE_CODEBLOCKS: 1
@@ -39,5 +39,5 @@ jobs:
 
       - name: Generated files
         run: |
-          echo ${{ steps.getsvg.outputs.files }}
+          echo ${{ steps.getsvg.outputs.files.all }}
           

@@ -7,8 +7,8 @@ sequenceDiagram
     note right of dbm: Sync DB kitabisa to DB kampanye
     dbm->>kf: push changes on table projects, <br>project_status & project_categories
     
-    kf->>+kw: consume messages test
-    kw->>kw: validate() test
+    kf->>+kw: consume messages
+    kw->>kw: validate()
     alt: need to sync
     note over kw,db: > update - projects<br> > insert/update - <br>project_statuses & project_categories
     kw->>db: sync
