@@ -48,10 +48,11 @@ jobs:
           echo ${{ steps.getsvg.outputs.paths }}
       
       - name: push to system-diagram
-        uses: dmnemec/copy_file_to_another_repo_action@main
+        uses: dmnemec/copy_file_to_another_repo_action@v1.1.1
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
+          github_server: 'github.com'
           source_file: ${{ steps.getsvg.outputs.paths }}
           destination_branch: 'master'
           destination_repo: 'ardityawahyu/lemon'
