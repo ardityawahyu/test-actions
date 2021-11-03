@@ -20,7 +20,8 @@ jobs:
         with:
           node-version: '14'
         
-      - name: Generating docs
-        run: |
-          npm install @mermaid-js/mermaid-cli
-          make mermaid
+      - run: yarn add @mermaid-js/mermaid-cli
+
+      - name: Generating Docs
+        run: make mermaid
+          
