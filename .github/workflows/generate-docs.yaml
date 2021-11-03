@@ -15,13 +15,29 @@ jobs:
       - name: Checking out repository
         uses: actions/checkout@v2
       
-      - name: Setup node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-        
-      - run: yarn global add @mermaid-js/mermaid-cli
+      - name: Get Files
+        id: getfile
+        run: echo "::set-output name=files::$(find docs -name '*.mmd')
 
-      - name: Generating Docs
-        run: make mermaid
+      - name: files changed
+        run: |
+          echo ${{ steps.getfile.outputs.files }}
+
+      - name: compile mermaid
+        uses: neenjaw/compile-mermaid-markdown-action@0.3.1
+        with:
+          files: ${{ steps.getfile.outputs.files }}
+          output: '.docs'
+        env:
+          HIDE_CODEBLOCKS: 1
+          ABSOLUTE_IMAGE_LINKS: 1
+          OUTPUT_FILE_TYPE: "svg"
+
+      - name: Get Generated Files
+        id: getsvg
+        run: echo "::set-output name=files::$(find docs -name '*.svg')
+
+      - name: Generated files
+        run: |
+          echo ${{ steps.getsvg.outputs.files }}
           
