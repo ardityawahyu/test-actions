@@ -17,7 +17,7 @@ jobs:
       
       - name: Get Files
         id: getfile
-        run: echo "::set-output name=files::$(find docs -name '*.mmd')
+        run: echo "::set-output name=files::$(find docs -name '*.mmd')"
 
       - name: files changed
         run: |
@@ -35,7 +35,7 @@ jobs:
 
       - name: Get Generated Files
         id: getsvg
-        run: echo "::set-output name=files::$(find docs -name '*.svg')
+        run: echo "::set-output name=files::$(find docs -name '*.svg')"
 
       - name: Generated files
         run: |
