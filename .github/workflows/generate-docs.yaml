@@ -47,16 +47,15 @@ jobs:
         run: |
           echo ${{ steps.getsvg.outputs.paths }}
       
-      - name: Copycat
-        uses: andstor/copycat-action@v3
+      - name: Copy files to another repository
+        uses: nkoppel/push-files-to-another-repository@v1.1.0
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
-          personal_token: ${{ secrets.GITHUB_TOKEN }}
-          src_path: docs
-          file_filter: '*.svg'
-          dst_path: docs
-          dst_owner: ardityawahyu
-          dst_repo_name: lemon
-          dst_branch: master
-          src_branch: master
-          commit_message: 'uploading svg'
+          source-files: ${{ steps.getsvg.outputs.paths }}
+          destination-username: 'ardityawahyu '
+          destination-repository: 'lemon'
+          destination-directory: 'docs'
+          commit-email: 'wahyu.arditya@gmail.com'
+
           
