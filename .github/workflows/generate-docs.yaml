@@ -15,44 +15,56 @@ jobs:
       - name: Checking out repository
         uses: actions/checkout@v2
 
+      # - name: Get files
+      #   id: getfiles
+      #   uses: Rishabh510/Path-lister-action@master
+      #   with:
+      #     path: "docs"
+      #     type: ".mmd"
+
       - name: Get files
         id: getfiles
-        uses: Rishabh510/Path-lister-action@master
-        with:
-          path: "docs"
-          type: ".mmd"
+        run: |
+          echo "::set-output name=files::$(du -a docs | awk '{print $2}' | grep -e '.*\.mmd$'' | xargs)"
 
       - name: files to be compiled
         run: |
-          echo ${{ steps.getfiles.outputs.paths }}
+          echo ${{ steps.getfiles.outputs.files }}
 
       - name: compile mermaid
         uses: neenjaw/compile-mermaid-markdown-action@v0.3.3
         with:
-          files: ${{ steps.getfiles.outputs.paths }}
+          files: ${{ steps.getfiles.outputs.files }}
           output: 'docs'
         env:
           HIDE_CODEBLOCKS: 1
           ABSOLUTE_IMAGE_LINKS: 1
           OUTPUT_FILE_TYPE: "svg"
 
-      - name: Get Generated Files
-        id: getsvg
-        uses: Rishabh510/Path-lister-action@master
-        with:
-          path: "docs"
-          type: ".svg"
+      - name: Get files
+        id: getfiles
+        run: |
+          echo "::set-output name=files::$(du -a docs | awk '{print $2}' | grep -e '.*\.mmd$'' | xargs)"
+      
+      # - name: Get Generated Files
+      #   id: getsvg
+      #   uses: Rishabh510/Path-lister-action@master
+      #   with:
+      #     path: "docs"
+      #     type: ".svg"
 
       - name: diagram generated
         run: |
-          echo ${{ steps.getsvg.outputs.paths }}
+          # echo ${{ steps.getsvg.outputs.paths }}
+          echo ${{ steps.getsvg.outputs.files }}
       
       - name: Copy files to another repository
         uses: nkoppel/push-files-to-another-repository@v1.1.0
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_GITHUB_TOKEN }}
         with:
-          source-files: ${{ steps.getsvg.outputs.paths }}
+          # source-files: ${{ steps.getsvg.outputs.paths }}
+          source-files: ${{ steps.getsvg.outputs.files }}
           destination-username: 'ardityawahyu'
           destination-repository: 'lemon'
           destination-directory: 'docs'
