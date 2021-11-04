@@ -42,9 +42,9 @@ jobs:
           OUTPUT_FILE_TYPE: "svg"
 
       - name: Get files
-        id: getfiles
+        id: getsvg
         run: |
-          echo "::set-output name=files::$(du -a docs | awk '{print $2}' | grep -e '.*\.mmd$'' | xargs)"
+          echo "::set-output name=files::$(du -a docs | awk '{print $2}' | grep -e '.*\.svg$'' | xargs)"
       
       # - name: Get Generated Files
       #   id: getsvg
