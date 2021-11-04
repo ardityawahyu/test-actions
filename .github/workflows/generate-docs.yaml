@@ -30,7 +30,7 @@ jobs:
         uses: neenjaw/compile-mermaid-markdown-action@v0.3.3
         with:
           files: ${{ steps.getfiles.outputs.paths }}
-          output: 'output'
+          output: 'docs'
         env:
           HIDE_CODEBLOCKS: 1
           ABSOLUTE_IMAGE_LINKS: 1
@@ -40,23 +40,23 @@ jobs:
         id: getsvg
         uses: Rishabh510/Path-lister-action@master
         with:
-          path: "output"
+          path: "docs"
           type: ".svg"
 
       - name: diagram generated
         run: |
           echo ${{ steps.getsvg.outputs.paths }}
       
-      - name: push to system-diagram
-        uses: dmnemec/copy_file_to_another_repo_action@v1.1.1
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+      - name: Copycat
+        uses: andstor/copycat-action@v3
         with:
-          source_file: 'output'
-          destination_branch: 'master'
-          destination_repo: 'ardityawahyu/lemon'
-          destination_folder: 'test-dir'
-          user_email: 'wahyu.arditya@gmail.com'
-          user_name: 'ardityawahyu'
-          commit_message: 'testing push from another repo via actions'
+          personal_token: ${{ secrets.GITHUB_TOKEN }}
+          src_path: docs
+          file_filter: '*.svg'
+          dst_path: docs
+          dst_owner: ardityawahyu
+          dst_repo_name: lemon
+          dst_branch: master
+          src_branch: master
+          commit_message: 'uploading svg'
           
