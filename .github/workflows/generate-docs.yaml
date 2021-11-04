@@ -25,7 +25,7 @@ jobs:
       - name: Get files
         id: getfiles
         run: |
-          echo "::set-output name=files::$(du -a docs | awk '{print $2}' | grep -e '.*\.mmd$'' | xargs)"
+          echo "::set-output name=files::$(du -a docs | awk '{print $2}' | grep -e '.*\.mmd$' | xargs)"
 
       - name: files to be compiled
         run: |
@@ -44,7 +44,7 @@ jobs:
       - name: Get files
         id: getsvg
         run: |
-          echo "::set-output name=files::$(du -a docs | awk '{print $2}' | grep -e '.*\.svg$'' | xargs)"
+          echo "::set-output name=files::$(du -a docs | awk '{print $2}' | grep -e '.*\.svg$' | xargs)"
       
       # - name: Get Generated Files
       #   id: getsvg
