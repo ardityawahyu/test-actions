@@ -1,0 +1,30 @@
+name: Generating Docs 2.0
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'docs/*.mmd'
+      - 'docs/*.py'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checking out repository
+        uses: actions/checkout@v2
+
+      - name: Generate architecture diagram
+        run: make architecture
+
+      - name: Generate other diagram with mermaid js
+        run: make mermaid-diagram
+
+      - name: Get diagram files
+        id: getfiles
+        run: echo "::set-output name=files::$(find docs -name '*.svg' -o -name '*.png')"
+
+      - name: Check diagram files
+        run: echo ${{ steps.getfiles.outputs.files }}

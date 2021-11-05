@@ -3,7 +3,7 @@ name: Generating Docs
 on:
   push:
     branches:
-      - master
+      - staging
     paths:
       - 'docs/*.mmd'
 
@@ -15,23 +15,17 @@ jobs:
       - name: Checking out repository
         uses: actions/checkout@v2
 
-      # - name: Get files
-      #   id: getfiles
-      #   uses: Rishabh510/Path-lister-action@master
-      #   with:
-      #     path: "docs"
-      #     type: ".mmd"
-
-      - name: Get files
+      - name: Get files mermaid
         id: getfiles
         run: |
           echo "::set-output name=files::$(du -a docs | awk '{print $2}' | grep -e '.*\.mmd$' | xargs)"
 
-      - name: files to be compiled
+      - name: to be compiled
         run: |
           echo ${{ steps.getfiles.outputs.files }}
 
-      - name: compile mermaid
+      - if: ${{ steps.getfiles.outputs.files }} != ""
+        name: compile mermaid
         uses: neenjaw/compile-mermaid-markdown-action@v0.3.3
         with:
           files: ${{ steps.getfiles.outputs.files }}
@@ -41,17 +35,22 @@ jobs:
           ABSOLUTE_IMAGE_LINKS: 1
           OUTPUT_FILE_TYPE: "svg"
 
+      - name: Get files diagram mindgrammer
+        id: getfilespy
+        run: |
+          echo "::set-output name=files::$(du -a docs | awk '{print $2}' | grep -e '.*\.py$' | xargs)"
+
+      - if: ${{ steps.getfilespy.outputs.files }} != ""
+        name: Setup Python
+        uses: actions/setup-python@v2.2.2
+        with:
+          python-version: 3.6
+        
+
       - name: Get files
         id: getsvg
         run: |
           echo "::set-output name=files::$(du -a docs | awk '{print $2}' | grep -e '.*\.svg$' | xargs)"
-      
-      # - name: Get Generated Files
-      #   id: getsvg
-      #   uses: Rishabh510/Path-lister-action@master
-      #   with:
-      #     path: "docs"
-      #     type: ".svg"
 
       - name: diagram generated
         run: |
