@@ -2,6 +2,7 @@ SHELL = /bin/bash
 MERMAIDFILES = $(shell find docs -name '*.mmd')
 ARCHFILES = $(shell find docs -name '*.py')
 PWD = $(shell pwd)
+UID = $(shell id -u)
 
 .PHONY: architecture
 architecture: 
@@ -10,5 +11,5 @@ architecture:
 
 .PHONY: mermaid-diagram
 mermaid-diagram:
-	@echo "Creating diagram with mermaid-js"
-	$(foreach doc,$(MERMAIDFILES),$(shell docker run -i --rm -v ${PWD}:/data minlag/mermaid-cli:8.13.3 -i /data/${doc}))
+	@echo "Creating diagram with mermaid-js $(MERMAIDFILES)"
+	@$(foreach doc,$(MERMAIDFILES),docker run -u $(UID) -it --rm -v $(PWD)/docs:/data/docs minlag/mermaid-cli:8.13.3 -i /data/$(doc);)
