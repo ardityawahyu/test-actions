@@ -28,3 +28,16 @@ jobs:
 
       - name: Check diagram files
         run: echo ${{ steps.getfiles.outputs.files }}
+
+      - name: Copy files to another repository
+        uses: nkoppel/push-files-to-another-repository@v1.1.0
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_GITHUB_TOKEN }}
+        with:
+          # source-files: ${{ steps.getsvg.outputs.paths }}
+          source-files: ${{ steps.getsvg.outputs.files }}
+          destination-username: 'ardityawahyu'
+          destination-repository: 'lemon'
+          destination-directory: 'docs'
+          commit-email: 'wahyu.arditya@gmail.com'
+          commit-username: 'ardityawahyu'
