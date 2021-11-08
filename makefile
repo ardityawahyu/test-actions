@@ -12,4 +12,4 @@ architecture:
 .PHONY: mermaid-diagram
 mermaid-diagram:
 	@echo "Creating diagram with mermaid-js $(MERMAIDFILES)"
-	@$(foreach doc,$(MERMAIDFILES),docker run -u $(UID) -it --rm -v $(PWD)/docs:/data/docs minlag/mermaid-cli:8.13.3 -i /data/$(doc);)
+	@$(foreach doc,$(MERMAIDFILES),docker run -u $(UID) -i --rm -v $(PWD)/docs:/data/docs minlag/mermaid-cli:8.13.3 -i /data/$(doc);)
