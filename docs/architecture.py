@@ -15,7 +15,7 @@ from diagrams.onprem.monitoring import Grafana
 from diagrams.onprem.logging import Loki
 from diagrams.saas.logging import NewRelic
 
-with Diagram("kampanye Architecture", show=False, outformat="svg"):
+with Diagram("kampanye Architecture", show=False):
     with Cluster("Cloudflare"):
         proxy = HAProxy("WAF")
     with Cluster("AWS"):
