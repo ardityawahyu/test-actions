@@ -25,7 +25,7 @@ jobs:
       - name: Get files
         id: getsvg
         run: |
-          echo "::set-output name=files::$(du -a docs | awk '{print $2}' | grep -e '.*\.svg$' | xargs)"
+          echo "::set-output name=files::$(find docs/out/*)"
 
       - name: diagram generated
         run: |
