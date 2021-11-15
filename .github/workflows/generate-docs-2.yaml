@@ -5,8 +5,7 @@ on:
     branches:
       - master
     paths:
-      - 'docs/*.mmd'
-      - 'docs/*.py'
+      - 'docs/*'
 
 jobs:
   build:
