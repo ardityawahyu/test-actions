@@ -24,7 +24,7 @@ jobs:
       - name: Get generated files
         id: getgenerated
         run: |
-          echo "::set-output name=files::$(echo find docs/out/*)"
+          ::set-output name=files::$(echo find docs/out/*)
 
       - name: diagram generated
         run: |
