@@ -24,18 +24,18 @@ jobs:
       - name: Get generated files
         id: getgenerated
         run: |
-          set-output name=files::$(echo find docs/out/*)
+          echo "::set-output name=files::$(find docs/out -type f -name '*' |xargs echo)"
 
       - name: diagram generated
         run: |
-          echo ${{ steps.getsvg.outputs.files }}
+          echo ${{ steps.getgenerated.outputs.files }}
 
       - name: Copy files to another repository
         uses: nkoppel/push-files-to-another-repository@v1.1.0
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_GITHUB_TOKEN }}
         with:
-          source-files: ${{ steps.getsvg.outputs.files }}
+          source-files: ${{ steps.getgenerated.outputs.files }}
           destination-username: 'ardityawahyu'
           destination-repository: 'lemon'
           destination-directory: 'docs'
