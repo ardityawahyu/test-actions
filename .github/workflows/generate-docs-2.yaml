@@ -24,7 +24,7 @@ jobs:
       - name: Get files
         id: getsvg
         run: |
-          echo "::set-output name=files::$(find docs/out/*)"
+          echo "::set-output name=files::$(find docs/out/* -print)"
 
       - name: diagram generated
         run: |
