@@ -19,6 +19,14 @@ jobs:
       - name: Generate other diagram with mermaid js
         run: make mermaid-diagram
 
+      - name: test download artifact
+        uses: actions/download-artifact@v2.0.10
+        with:
+          name: my-artifact
+    
+      - name: Display structure of downloaded files
+        run: ls -R
+
       - name: Get generated files
         id: getgenerated
         run: |
