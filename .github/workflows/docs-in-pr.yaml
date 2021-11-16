@@ -23,7 +23,17 @@ jobs:
         id: getgenerated
         run: |
           echo "::set-output name=files::$(find docs/out -type f -name '*' |xargs echo)"
+      
+      - name: prepare diagram for comment
+        id: display
+        run: |
+          echo "::set-output name=files::$(for f in ${{ steps.getgenerated.outputs.files }}; do echo "![diagram](docs/out/${f})"; done)"
 
       - name: show diagram on PR comment
-        run: |
-          for f in $FILES; do echo "![diagram](docs/out/${f})"; done
+        uses: KeisukeYamashita/create-comment@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          unique: true
+          check-only-first-line: true
+          comment: |
+            ${{ steps.display.outputs.files }}
