@@ -29,11 +29,12 @@ jobs:
           name: generated-diagram
           path: docs/out
 
-      - name: add artifact links to pull request and related issues step
-        uses: tonyhallett/artifacts-url-comments@v1.1.0
-        env:
-            GITHUB_TOKEN: ${{ secrets.API_GITHUB_TOKEN }}
+      - name: show diagram on PR comment
+        uses: KeisukeYamashita/create-comment@v1
         with:
-            prefix: Here are the artifacts 
-            suffix: Have a nice day.
-            addTo: pull
+          token: ${{ secrets.GITHUB_TOKEN }}
+          unique: true
+          check-only-first-line: true
+          comment: |
+            :warning: There are changes on diagram docs, download it from artifacts :warning:
+            https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
