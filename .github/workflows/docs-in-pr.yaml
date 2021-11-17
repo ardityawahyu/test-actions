@@ -36,4 +36,6 @@ jobs:
           unique: true
           check-only-first-line: true
           comment: |
-            ${{ steps.getgenerated.outputs.files }}
+            for file in ${{ steps.getgenerated.outputs.files }}; do
+              echo "$file was modified"
+            done;
