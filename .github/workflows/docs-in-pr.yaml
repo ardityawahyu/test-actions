@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-2019
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checking out repository
@@ -32,7 +32,7 @@ jobs:
       - name: add artifact links to pull request and related issues step
         uses: tonyhallett/artifacts-url-comments@v1.1.0
         env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            GITHUB_TOKEN: ${{ secrets.API_GITHUB_TOKEN }}
         with:
             prefix: Here are the artifacts 
             suffix: Have a nice day.
