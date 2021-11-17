@@ -24,6 +24,11 @@ jobs:
         run: |
           echo "::set-output name=files::$(find docs/out -type f -name '*' |xargs echo)"
 
+      - uses: actions/upload-artifact@v1
+        with:
+          name: generated-diagram
+          path: '${{ steps.getgenerated.outputs.files }}'
+
       - name: show diagram on PR comment
         uses: KeisukeYamashita/create-comment@v1
         with:
