@@ -29,13 +29,13 @@ jobs:
           name: generated-diagram
           path: docs/out
 
-      - name: show diagram on PR comment
-        uses: KeisukeYamashita/create-comment@v1
+      - name: add artifact links to pull request and related issues step
+        if: ${{ steps.getgenerated.outputs.files }} != ""
+        uses: tonyhallett/artifacts-url-comments@v1.1.0
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          unique: true
-          check-only-first-line: true
-          comment: |
-            for file in ${{ steps.getgenerated.outputs.files }}; do
-              echo "$file was modified"
-            done;
+            prefix: Here are the artifacts 
+            suffix: Have a nice day.
+            format: name
+            addTo: pullandissues
