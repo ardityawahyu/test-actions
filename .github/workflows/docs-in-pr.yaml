@@ -19,23 +19,10 @@ jobs:
       - name: Generate other diagram with mermaid js
         run: make mermaid-diagram
 
-      - name: test download artifact
-        uses: actions/download-artifact@v2.0.10
-        with:
-          name: my-artifact
-    
-      - name: Display structure of downloaded files
-        run: ls -R
-
       - name: Get generated files
         id: getgenerated
         run: |
           echo "::set-output name=files::$(find docs/out -type f -name '*' |xargs echo)"
-      
-      - name: prepare diagram for comment
-        id: display
-        run: |
-          echo "::set-output name=files::$(for f in ${{ steps.getgenerated.outputs.files }}; do echo "![diagram](docs/out/${f})"; done)"
 
       - name: show diagram on PR comment
         uses: KeisukeYamashita/create-comment@v1
@@ -44,4 +31,4 @@ jobs:
           unique: true
           check-only-first-line: true
           comment: |
-            ${{ steps.display.outputs.files }}
+            ${{ steps.getgenerated.outputs.files }}
