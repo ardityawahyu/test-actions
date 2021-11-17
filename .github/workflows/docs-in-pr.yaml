@@ -27,7 +27,7 @@ jobs:
       - uses: actions/upload-artifact@v1
         with:
           name: generated-diagram
-          path: '${{ steps.getgenerated.outputs.files }}'
+          path: docs/out
 
       - name: show diagram on PR comment
         uses: KeisukeYamashita/create-comment@v1
