@@ -24,6 +24,17 @@ jobs:
         run: |
           echo "::set-output name=files::$(find docs/out -type f -name '*' |xargs echo)"
 
+      - uses: actions/upload-artifact@v1
+        with:
+          name: generated-diagram
+          path: docs/out
+
       - name: show diagram on PR comment
-        run: |
-          for f in $FILES; do echo "![diagram](docs/out/${f})"; done
+        uses: KeisukeYamashita/create-comment@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          unique: true
+          check-only-first-line: true
+          comment: |
+            :warning: There are changes on diagram docs, download it from artifacts :warning:
+            https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
