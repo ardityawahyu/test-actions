@@ -27,7 +27,6 @@ jobs:
           echo "::set-output name=files::$(find docs/out -type f -name '*' |xargs echo)"
 
       - uses: actions/upload-artifact@v1
-        if: ${{ steps.getgenerated.outputs.files }} !== ""
         with:
           name: generated-diagram
           path: docs/out
